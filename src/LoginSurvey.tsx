@@ -29,8 +29,15 @@ const LoginSurvey: React.FC = () => {
         try {
             const response: Response = await fetch(`${baseURL}${urlUserSurvey}${cedula}`);
             if (!response.ok) {
-                setMensaje("El usuario no existe, por favor valide el número de documento ingresado");
+                let mensajeError = "Se presentó un error, vuelva a intentarlo"
+                if(response.status === 404){
+                    mensajeError = "El usuario no existe, por favor valide el número de documento ingresado";
+                } 
+                setMensaje(mensajeError);
                 dialogRef.current?.showModal();
+                setDatos({ nombre: "", email: "", enabledSurveys: [] }); 
+
+                return;
             }
             const dataUser: any = await response.json();
             
@@ -42,9 +49,10 @@ const LoginSurvey: React.FC = () => {
             ultimaCedulaConsultada.current = cedula;
 
         } catch (error: any) {
-            setMensaje("Se presentó un error, vuelva a intentarlo");
+            console.error("Error en la solicitud:", error);
+            setMensaje("Error inesperado. Por favor, inténtelo de nuevo.");
             dialogRef.current?.showModal();
-            setDatos({ nombre: "", email: "", enabledSurveys: [] }); 
+            setDatos({ nombre: "", email: "", enabledSurveys: [] });             
         }
     }
 

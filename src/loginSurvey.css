@@ -3,7 +3,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 500px;
+    max-width: 500px;
     color: white;
     background-color: rgba(23, 31, 46, 0.61);
     border-radius: 10px;
@@ -103,4 +103,10 @@
 #login_section #login_form .sign_module a{
     color: #FFA14A;
     font-size: 0.8rem;    
+}
+
+@media (min-width: 900px){
+    #login_section{
+        width: 500px;
+    }
 }
