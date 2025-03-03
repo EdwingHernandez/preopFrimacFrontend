@@ -1,0 +1,32 @@
+.dialogo[open] {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    row-gap: 30px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: none;
+    border-radius: 10px;
+    padding: 20px;
+    background: #1e293b;
+    color: white;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+    height: 300px;
+}
+
+.dialogo button {
+    margin-top: 10px;
+    padding: 5px 10px;
+    width: 50%;
+    border: none;
+    background: #81838a;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  .dialogo button:hover {
+    background: #121213;
+  }
+  
