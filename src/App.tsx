@@ -1,5 +1,5 @@
 import React from "react";
-import Survey from "./Survey";
+// import Survey from "./Survey";
 import LoginSurvey from "./LoginSurvey";
 
 const App: React.FC = () => {

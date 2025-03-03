@@ -10,7 +10,7 @@ interface QuestionProps {
   onAnswer: (answer: string) => void;
 }
 
-const Question: React.FC<QuestionProps> = ({ id, type, text, options, onAnswer }) => {
+const Question: React.FC<QuestionProps> = ({type, text, options, onAnswer }) => {
   return (
     <div className="p-4 border rounded bg-white shadow-md">
       <p className="font-semibold text-gray-700">{text}</p>
