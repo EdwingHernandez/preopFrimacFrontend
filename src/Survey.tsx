@@ -14,7 +14,7 @@ const Survey: React.FC = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchQuestions = async () => {
+    const fetchQuestions = async () => {  
       try {
         const res = await fetch("http://localhost:8080/questions");
         const data: QuestionData[] = await res.json();
@@ -27,7 +27,7 @@ const Survey: React.FC = () => {
               return { ...q, options: optionsData.map((opt: any) => opt.text) };
             }
             return q;
-          })
+          }, [])
         );
 
         setQuestions(questionsWithOptions);
@@ -44,11 +44,25 @@ const Survey: React.FC = () => {
   if (loading) return <p>Cargando...</p>;
 
   return (
-    <div>
-      {questions.map((q) => (
-        <Question key={q.id} id={q.id} type={q.idQuestiontype === 2 ? "multiple_choice" : "text"} text={q.question} options={q.options} onAnswer={(answer) => console.log(`Respuesta a ${q.id}:`, answer)} />
-      ))}
-    </div>
+    // <div>
+    //   <h1>Encuesta Preoperacional Vehicular Diaria</h1>
+    //   <p>Evalúe el estado de su vehículo diariamente, antes de iniciar su viaje. La presente encuesta tiene como objetivo dar cumplimiento a la Resolución 315 de 2013 y Resolución 40595 de 2022</p>
+    //   {questions.map((q) => (
+    //     <Question key={q.id} id={q.id} type={q.idQuestiontype === 2 ? "multiple_choice" : "text"} text={q.question} options={q.options} onAnswer={(answer) => console.log(`Respuesta a ${q.id}:`, answer)} />
+    //   ))}
+    // </div>
+            <section id="login_section">
+            {/* <div className="image_logo">
+                <img src={logoSinLetras} alt="" /> 
+            </div> */}
+
+              <h2 className="login_title">Encuesta Preoperacional Vehicular Diaria</h2>
+              <p>Evalúe el estado de su vehículo diariamente, antes de iniciar su viaje. La presente encuesta tiene como objetivo dar cumplimiento a la Resolución 315 de 2013 y Resolución 40595 de 2022</p>
+
+              {questions.map((q) => (
+                <Question key={q.id} id={q.id} type={q.idQuestiontype === 2 ? "multiple_choice" : "text"} text={q.question} options={q.options} onAnswer={(answer) => console.log(`Respuesta a ${q.id}:`, answer)} />
+              ))}
+        </section>
   );
 };
 

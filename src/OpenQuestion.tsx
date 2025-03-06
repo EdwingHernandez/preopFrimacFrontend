@@ -14,7 +14,7 @@ const OpenQuestion: React.FC<OpenQuestionProps> = ({ onAnswer }) => {
         value={answer}
         onChange={(e) => setAnswer(e.target.value)}
         onBlur={() => onAnswer(answer)}
-        className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="login_input"
         placeholder="Escribe tu respuesta..."
       />
     </div>

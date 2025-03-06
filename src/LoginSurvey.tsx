@@ -2,6 +2,7 @@ import React, { useState, useRef } from "react";
 import "./loginSurvey.css"
 import logoSinLetras from "./assets/logo-frimac_sin_letras.webp"
 import Dialog from "./Dialog";
+import { Link } from "react-router-dom";
 
 
 const baseURL: string = "http://localhost:8080";
@@ -22,8 +23,9 @@ const LoginSurvey: React.FC = () => {
     };
    
 
-    const validarCedula = async () => {
+    const validationUserLogin = async () => {
         if (cedula === ultimaCedulaConsultada.current || cedula.trim() === "") {
+            setDatos({ nombre: "", email: "", enabledSurveys: [] }); 
             return;
           }
         try {
@@ -72,7 +74,7 @@ const LoginSurvey: React.FC = () => {
                  id="input_doc"
                  value={cedula || ""}
                  onChange={(e) => setCedula(e.target.value)}
-                 onBlur={validarCedula}
+                 onBlur={validationUserLogin}
                  placeholder="Ingrese su número de cédula"
                  required />
                 <p className="login_text">Nombre</p>
@@ -118,7 +120,7 @@ const LoginSurvey: React.FC = () => {
                 <button className="submit">Iniciar encuesta</button>
                 <div className="sign_module">
                     <p>¿No está registrado?</p>
-                    <a href="#">Regístrese</a>
+                    <Link to="/SigninUser" >Regístrese</Link>
                 </div>
             </form>
             <Dialog ref={dialogRef} message={mensaje} />
