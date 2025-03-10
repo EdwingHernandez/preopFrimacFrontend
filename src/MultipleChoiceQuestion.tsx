@@ -13,9 +13,9 @@ const MultipleChoiceQuestion: React.FC<MultipleChoiceProps> = ({ options, onAnsw
         className="w-full p-2 border rounded bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
       >
         <option value="">Selecciona una opción...</option>
-        {options.map((option) => (
-          <option key={option} value={option}>
-            {option}
+        {options.map((option: any) => (
+          <option key={option.id} value={option.text}>
+            {option.text}
           </option>
         ))}
       </select>

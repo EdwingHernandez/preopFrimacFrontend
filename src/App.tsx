@@ -12,10 +12,10 @@ const App: React.FC = () => {
     // </div>
     <Router basename="/preopFrimacFrontend">
     <Routes>
-      <Route path="/" element={<Navigate to="/Survey" />} />
+      <Route path="/" element={<Navigate to="/LoginSurvey" />} />
       <Route path="/LoginSurvey" element={<LoginSurvey />} />
       <Route path="/SigninUser" element={<SigninUser />} />
-      <Route path="/Survey" element={<Survey />} />
+      <Route path="/Survey/:surveyId" element={<Survey />} />
     </Routes>
   </Router>
   );

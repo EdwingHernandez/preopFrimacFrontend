@@ -2,18 +2,20 @@ import React, { useState, useRef } from "react";
 import "./loginSurvey.css"
 import logoSinLetras from "./assets/logo-frimac_sin_letras.webp"
 import Dialog from "./Dialog";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 
 const baseURL: string = "http://localhost:8080";
 const urlUserSurvey: string = "/users/surveys/";
 
 const LoginSurvey: React.FC = () => {
+    const navigate = useNavigate();
     const [cedula, setCedula] = useState<string>("");
     const [datos, setDatos] = useState<any>({});
     const ultimaCedulaConsultada = useRef<string>("");
     const dialogRef = useRef<HTMLDialogElement | null>(null);
     const [mensaje, setMensaje] = useState<string>("");
+    const [selectedSurvey, setSelectedSurvey] = useState("");
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         setDatos((prevDatos: any) => ({
@@ -21,7 +23,16 @@ const LoginSurvey: React.FC = () => {
           [e.target.name]: e.target.value
         }));
     };
-   
+
+    const handleStartSurvey = () => {
+        if (!selectedSurvey) {
+            let mensajeEncuesta = "Por favor seleccione una encuesta"
+            setMensaje(mensajeEncuesta);
+            dialogRef.current?.showModal();
+          return;
+        }
+        navigate(`/Survey/${selectedSurvey}`); 
+    };    
 
     const validationUserLogin = async () => {
         if (cedula === ultimaCedulaConsultada.current || cedula.trim() === "") {
@@ -107,17 +118,17 @@ const LoginSurvey: React.FC = () => {
                 readOnly
                 />
                 <p className="login_text">Encuestas habilitadas</p>
-                <select name="encuestas" className="login_input" id="select_survey" required value={datos.enabledSurveys || ""} onChange={handleChange}>
+                <select name="encuestas" className="login_input" id="select_survey" required value={selectedSurvey} onChange={(e) => setSelectedSurvey(e.target.value)}>
                     <option value="">Seleccione una encuesta</option>
                     {Array.isArray(datos.enabledSurveys) &&
-                        datos.enabledSurveys.map((surveyname: string) => (
-                            <option key={surveyname} value={surveyname}>
-                                {surveyname}
+                        datos.enabledSurveys.map((survey: any) => (
+                            <option key={survey.id} value={survey.id}>
+                                {survey.name}
                             </option>
                         ))
                     }
                 </select>
-                <button className="submit">Iniciar encuesta</button>
+                <button type="button" onClick={handleStartSurvey} className="submit">Iniciar encuesta</button>
                 <div className="sign_module">
                     <p>¿No está registrado?</p>
                     <Link to="/SigninUser" >Regístrese</Link>
