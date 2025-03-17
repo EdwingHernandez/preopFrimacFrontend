@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-d
 import Survey from "./Survey";
 import LoginSurvey from "./LoginSurvey";
 import SigninUser from "./SigninUser";
+import PrivateRoute from "./PrivateRoute";
 
 const App: React.FC = () => {
   return (
@@ -15,7 +16,10 @@ const App: React.FC = () => {
       <Route path="/" element={<Navigate to="/LoginSurvey" />} />
       <Route path="/LoginSurvey" element={<LoginSurvey />} />
       <Route path="/SigninUser" element={<SigninUser />} />
-      <Route path="/Survey/:surveyId" element={<Survey />} />
+      <Route element={<PrivateRoute />}>
+        <Route path="/Survey/:surveyId" element={<Survey />} />
+      </Route>
+      
     </Routes>
   </Router>
   );

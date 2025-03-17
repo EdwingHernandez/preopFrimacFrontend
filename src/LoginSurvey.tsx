@@ -7,6 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 const baseURL: string = "http://localhost:8080";
 const urlUserSurvey: string = "/users/surveys/";
+const urlLogin: string = "/login";
 
 const LoginSurvey: React.FC = () => {
     const navigate = useNavigate();
@@ -24,17 +25,53 @@ const LoginSurvey: React.FC = () => {
         }));
     };
 
-    const handleStartSurvey = () => {
+    const handleStartSurvey = async () => {
         if (!selectedSurvey) {
             let mensajeEncuesta = "Por favor seleccione una encuesta"
             setMensaje(mensajeEncuesta);
             dialogRef.current?.showModal();
           return;
         }
-        navigate(`/Survey/${selectedSurvey}`); 
+        const loginSuccess = await validationLogin();
+        if (!loginSuccess) return;
+        navigate(`/Survey/${selectedSurvey}`);
     };    
 
-    const validationUserLogin = async () => {
+    const validationLogin = async () => {
+        const payload = {
+            username: cedula,
+            password: "U004",
+        };        
+        try {
+            
+            const responseLogin: Response = await fetch(`${baseURL}${urlLogin}`,{
+                method: "POST",
+                credentials: "include",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(payload)
+            });
+
+            if(!responseLogin.ok){
+                let msgErrorLogin = "Se presentó un error, vuelva a intentarlo"
+                if(responseLogin.status === 401){
+                    msgErrorLogin = "Error en el usuario o contraseña"
+                }
+                setMensaje(msgErrorLogin);
+                dialogRef.current?.showModal();
+                return false;
+            }
+
+            return true;
+        } catch {
+            setMensaje("Error inesperado. Por favor, inténtelo de nuevo.");
+            dialogRef.current?.showModal();
+            return false;
+        }
+    }
+
+    const getUserInformation = async () => {
         if (cedula === ultimaCedulaConsultada.current || cedula.trim() === "") {
             setDatos({ nombre: "", email: "", enabledSurveys: [] }); 
             return;
@@ -85,7 +122,7 @@ const LoginSurvey: React.FC = () => {
                  id="input_doc"
                  value={cedula || ""}
                  onChange={(e) => setCedula(e.target.value)}
-                 onBlur={validationUserLogin}
+                 onBlur={getUserInformation}
                  placeholder="Ingrese su número de cédula"
                  required />
                 <p className="login_text">Nombre</p>

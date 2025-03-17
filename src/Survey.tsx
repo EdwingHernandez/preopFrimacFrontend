@@ -14,7 +14,10 @@ const Survey: React.FC = () => {
     if (!effectRan.current) {
       effectRan.current = true;
   
-      fetch("http://Localhost:8080/surveys/withQuestionsOptions/" + surveyId)
+      fetch("http://Localhost:8080/surveys/withQuestionsOptions/" + surveyId, {
+        method: "GET",
+        credentials: "include"
+      })
         .then((responseSurveys) => responseSurveys.json())
         .then((dataSurvey) => {
           const questions = dataSurvey.questionsDTO;
